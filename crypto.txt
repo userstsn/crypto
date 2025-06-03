@@ -1,0 +1,190 @@
+Caesar Cipher
+
+#include <stdio.h>
+#include <ctype.h>
+
+int main() {
+    char msg[100];
+    int key, i;
+
+    printf("Enter message: ");
+    gets(msg);
+    printf("Enter key: ");
+    scanf("%d", &key);
+
+    for (i = 0; msg[i] != '\0'; i++) {
+        if (isalpha(msg[i])) {
+            char base = isupper(msg[i]) ? 'A' : 'a';
+            msg[i] = (msg[i] - base + key) % 26 + base;
+        }
+    }
+
+    printf("Encrypted: %s\n", msg);
+    return 0;
+}
+
+#########################################################
+GCD USING EUCLIDEAN 
+
+#include <stdio.h>
+
+int main() {
+    int a, b;
+    printf("Enter two numbers: ");
+    scanf("%d%d", &a, &b);
+
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+
+    printf("GCD is %d\n", a);
+    return 0;
+}
+######################################################
+
+DIFFIE HELMAN
+
+
+#include <stdio.h>
+#include <math.h>
+
+int power(int base, int exp, int mod) {
+    int result = 1;
+    for (int i = 0; i < exp; i++)
+        result = (result * base) % mod;
+    return result;
+}
+
+int main() {
+    int p = 23, g = 5;  // Public
+    int a = 6, b = 15;  // Private
+
+    int A = power(g, a, p);
+    int B = power(g, b, p);
+
+    int keyA = power(B, a, p);
+    int keyB = power(A, b, p);
+
+    printf("Shared key (A): %d\n", keyA);
+    printf("Shared key (B): %d\n", keyB);
+    return 0;
+}
+
+#######################################################
+
+COPRIME OR NOT
+
+
+#include <stdio.h>
+
+int gcd(int a, int b) {
+    while (b != 0) {
+        int t = b;
+        b = a % b;
+        a = t;
+    }
+    return a;
+}
+
+int main() {
+    int a, b;
+    printf("Enter two numbers: ");
+    scanf("%d%d", &a, &b);
+
+    if (gcd(a, b) == 1)
+        printf("Coprime\n");
+    else
+        printf("Not Coprime\n");
+    return 0;
+}
+
+
+
+################################################
+
+HILL CIPHER
+
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    int key[2][2] = {{3, 3}, {2, 5}};
+    char msg[3];
+    int vector[2], result[2];
+
+    printf("Enter 2-letter message (uppercase): ");
+    scanf("%s", msg);
+
+    for (int i = 0; i < 2; i++)
+        vector[i] = msg[i] - 'A';
+
+    for (int i = 0; i < 2; i++) {
+        result[i] = 0;
+        for (int j = 0; j < 2; j++)
+            result[i] += key[i][j] * vector[j];
+        result[i] %= 26;
+    }
+
+    printf("Encrypted: ");
+    for (int i = 0; i < 2; i++)
+        printf("%c", result[i] + 'A');
+    printf("\n");
+
+    return 0;
+}
+
+
+###################################################
+
+MONOALPHABETIC
+
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char key[26] = "QWERTYUIOPASDFGHJKLZXCVBNM";
+    char msg[100];
+    int i;
+
+    printf("Enter message (uppercase): ");
+    gets(msg);
+
+    for (i = 0; msg[i] != '\0'; i++) {
+        if (msg[i] >= 'A' && msg[i] <= 'Z')
+            msg[i] = key[msg[i] - 'A'];
+    }
+
+    printf("Encrypted: %s\n", msg);
+    return 0;
+}
+
+
+###############################################
+Rail Fence Cipher (Depth = 2)
+
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char msg[100], rail1[100], rail2[100];
+    int i, j = 0, k = 0;
+
+    printf("Enter message: ");
+    gets(msg);
+
+    for (i = 0; msg[i] != '\0'; i++) {
+        if (i % 2 == 0)
+            rail1[j++] = msg[i];
+        else
+            rail2[k++] = msg[i];
+    }
+
+    rail1[j] = '\0';
+    rail2[k] = '\0';
+
+    printf("Encrypted: %s%s\n", rail1, rail2);
+    return 0;
+}
+
